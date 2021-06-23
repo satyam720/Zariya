@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 
 
 
-const {ObjectId} = mongose.schema;
+
+const {ObjectId} = mongoose.Schema;
 
 
 const lessonSchema = new mongoose.Schema({
@@ -54,7 +55,7 @@ const courseSchema = new mongoose.Schema({
         required: true,
     },
     price: {
-        type : number,
+        type : Number,
         default: 450,
     },
     image: {},
@@ -65,7 +66,7 @@ const courseSchema = new mongoose.Schema({
     },
     paid: {
         type: Boolean,
-        default: ture,
+        default: true,
     },
     instructor: {
         type: ObjectId,
