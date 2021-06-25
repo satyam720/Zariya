@@ -43,6 +43,7 @@ const CourseView = () => {
    };
 
    const handleVideo = async (e) => {
+       
       try{
         const file = e.target.files[0]
         setUploadButtonText(file.name);
@@ -52,7 +53,7 @@ const CourseView = () => {
         videoData.append('video',file)
 
         //save progress bar and send video as form data to backend
-        const {data} = await axios.post('/api/course/video-upload', videoData,{
+        const {data} = await axios.post(`/api/course/video-upload/${course.instructor._id}`, videoData,{
             onUploadProgress: (e) => {
                 setProgress(Math.round((100 * e.loaded)/e.total))
             }
@@ -75,7 +76,7 @@ const CourseView = () => {
       try{
         setUploading(true);
         const {data} = await axios.post(
-            "/api/course/video-remove",
+            `/api/course/video-remove/${course.instructor._id}`,
             values.video
         );
         console.log(data)
