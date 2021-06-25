@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import InstructorRoute from "../../components/routes/InstructorRoute";
 import { Avatar } from "antd";
-import Link from "next/link";
+import Link from "next/Link";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
 const InstructorIndex = () => {

@@ -2,11 +2,15 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import InstructorRoute from "../../../../components/routes/InstructorRoute";
 import axios from 'axios';
-import {Avatar, Tooltip} from "antd";
-import { EditOutlined, CheckOutlined } from "@ant-design/icons";
+import {Avatar, Tooltip, Button,Modal} from "antd";
+import { EditOutlined, CheckOutlined, UploadOutlined } from "@ant-design/icons";
+import ReactMarkdown from "react-markdown";
 
 const CourseView = () => {
     const [course, setCourse] = useState();
+    
+    // for lesson
+    const [visible, setVisible] = useState(false);
 
     const router = useRouter();
     const {slug} = router.query;
@@ -18,7 +22,12 @@ const CourseView = () => {
     const loadCourse = async () => {
         const {data} = await axios.get(`/api/course/${slug}`);
         setCourse(data);
+        
     }
+
+   
+
+    
 
     return (
         <InstructorRoute>
@@ -60,7 +69,40 @@ const CourseView = () => {
                         
                     </div>
 
+                   
+
                 </div>
+                <hr />
+                <div className="row">
+                        <div className="col">
+                        
+                           <ReactMarkdown children= {course.description} />
+
+                        </div>
+
+                    </div>
+                <br />
+                
+                <div className="row">
+                    <Button 
+                    onClick={() => setVisible(true)}
+                    className="col-md-6 offset-md-3 text-center"
+                    type="primary"  
+                    shape="round"
+                    icon={<UploadOutlined/>} 
+                    size="large"               
+                    >
+                    Add Lessons</Button>
+                </div>
+                
+
+                <Modal title="+ Add Lesson"
+                centered
+                visible={visible}
+                onCancel={() => setVisible(false)}
+                footer={null}>
+                    show add lesson component
+                </Modal>
              </div>
              
              }
