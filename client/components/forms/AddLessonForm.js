@@ -1,7 +1,12 @@
 import { Button } from "antd";
 
 
-const AddLessonForm = ({values, setValues, handleAddLesson,uploading}) => {
+const AddLessonForm = ({values, 
+    setValues, 
+    handleAddLesson,
+    uploading,
+    uplaodButtonText,
+    handleVideo}) => {
     return (<div className="container pt-3"> 
                 <form  onSubmit={handleAddLesson}>
                     <input 
@@ -22,6 +27,17 @@ const AddLessonForm = ({values, setValues, handleAddLesson,uploading}) => {
                          values={values.content}
                          placeholder="Content"
                      />
+                        
+                        <label className="btn btn-dark w-100 text-left mt-3" >
+                       {uplaodButtonText}
+                      <input onChange={handleVideo } type="file" accept="video/*" hidden>
+
+
+                      </input>
+
+                     </label>
+                        
+                     
                         <div className='d-grid gap-2'>
                         <Button onClick={handleAddLesson}
                      className="col  mt-3"

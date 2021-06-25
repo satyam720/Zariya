@@ -19,6 +19,8 @@ const CourseView = () => {
     });
     const [uploading, setUploading] = useState(false);
 
+    const [uplaodButtonText, setUploadButtonText] = useState("Upload Video");
+
     const router = useRouter();
     const {slug} = router.query;
 
@@ -37,6 +39,12 @@ const CourseView = () => {
        e.preventDefault();
        console.log(values);
    };
+
+   const handleVideo = e => {
+       const file = e.target.files[0]
+       setUploadButtonText(file.name);
+       console.log("handle video function ")
+   }
 
     
 
@@ -117,6 +125,8 @@ const CourseView = () => {
                         setValues={setValues}
                         handleAddLesson={handleAddLesson}
                         uploading={uploading}
+                        uplaodButtonText={uplaodButtonText}
+                        handleVideo={handleVideo}
                     />
                 </Modal>
              </div>
