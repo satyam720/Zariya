@@ -75,34 +75,18 @@ const CourseEdit = () => {
         })
     };
 
-    const handleImageRemove = async () => {
-        // console.log("remover image");
-        try {
-            setValues({...values, loading: true});
     
-            const res = await axios.post('/api/course/remove-image', {image});
-            setImage({});
-            setPreview('');
-            setUploadButtonText("Upload Image");
-            setValues({...values, loading: false});
-    
-           } catch (err) {
-               console.log(err);
-               setValues({...values, loading: false});
-               toast("Image upload failed. Try later");
-           }
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         // console.log(values);
        try{
-        const {data} = await axios.post('/api/course',{
+        const {data} = await axios.put('/api/course',{
             ...values, 
             image
         });
-        toast("Great! Now you can start adding lessons");
-        router.push("/instructor")
+        toast("Course Updated!");
+        // router.push("/instructor")
        }catch (err) {
         toast(err.response.data);
        }
@@ -127,7 +111,8 @@ const CourseEdit = () => {
                 setValues={setValues}
                 preview={preview}
                 uploadButtonText={uploadButtonText}
-                handleImageRemove={handleImageRemove}
+               
+                editPage={true}
             />
             </div>
             {/* <pre>{JSON.stringify(values, null, 4)}</pre>

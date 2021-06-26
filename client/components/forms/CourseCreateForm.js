@@ -11,7 +11,8 @@ const CourseCreateForm =({
     setValues,
     preview,
     uploadButtonText,
-    handleImageRemove,
+    handleImageRemove = (f) => f,
+    editPage= false,
 })  => {
 
     const children =[] 
@@ -23,7 +24,9 @@ const CourseCreateForm =({
     }
 
     return(
-    <form  onSubmit={handleSubmit}>
+        <> 
+    {values && (
+        <form  onSubmit={handleSubmit}>
     <div className="form-group">
         <input 
         type="text" 
@@ -122,6 +125,10 @@ const CourseCreateForm =({
 
                 </div>
         )}
+
+        
+
+        {editPage && values.image && <Avatar width={200} src={values.image.Location} />}
     </div>
 
     
@@ -140,7 +147,10 @@ const CourseCreateForm =({
             </div>
         </div>
   
-</form>)
+</form>
+    )}
+        </>
+    );
 };
 
 export default CourseCreateForm;
