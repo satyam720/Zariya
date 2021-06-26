@@ -8,6 +8,7 @@ import Resizer from "react-image-file-resizer";
 import {toast} from 'react-toastify';
 import {List,Avatar,Modal } from "antd";
 import {DeleteOutlined} from '@ant-design/icons';
+import UpdateLessonForm from '../../../../components/forms/UpdateLessonForm';
 
 
 const {Item } = List;
@@ -41,6 +42,9 @@ const CourseEdit = () => {
     //state for lesson update
     const [visible, setVisible] = useState(false);
     const [current, setCurrent] = useState({});
+    const [uploadVideoButtonText, setUploadVideoButtonText ] = useState('Upload Video');
+    const [progress, setProgress] = useState(0);
+    const [uploading, setUploading] = useState(false);
 
 
     //router
@@ -164,7 +168,14 @@ const CourseEdit = () => {
 
     }
 
-   
+    //Lesson update functions********************
+    const handleVideo = () => {
+        console.log("handle video")
+    }
+
+   const handleUpdateLesson = () => {
+       console.log("handle upload lesson");
+   }
 
     return (
         <InstructorRoute>
@@ -229,7 +240,16 @@ const CourseEdit = () => {
                  onCancel={() => setVisible(false)}
                  footer={null}>
                  Update Lesson Form
-                 <pre>{JSON.stringify(current, null ,4)}</pre>
+                 {/* <pre>{JSON.stringify(current, null ,4)}</pre> */}
+                 <UpdateLessonForm 
+                     current={current}
+                     setCurrent={setCurrent}
+                     handleVideo={handleVideo}
+                     handleUpdateLesson= {handleUpdateLesson}
+                     uploadVideoButtonText={uploadVideoButtonText}
+                     progress= {progress}
+                     uploading={uploading}
+                 />
                 
 
                  </Modal>
