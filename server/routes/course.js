@@ -7,7 +7,7 @@ const router = express.Router();
 import { requireSignin } from '../middlewares';
 
 // controllers
-import {uploadImage,removeImage, create, read,uploadVideo,removeVideo,addLesson,update} from '../controllers/course';
+import {uploadImage,removeImage, create, read,uploadVideo,removeVideo,addLesson,update,removeLesson} from '../controllers/course';
 
 // image upload and remove routes
 router.post("/course/upload-image",uploadImage);
@@ -22,5 +22,7 @@ router.post('/course/video-remove/:instructorId', requireSignin,  removeVideo);
 
 // `/api/course/lesson/${slug}/${course.instructor._id}`,values
 router.post('/course/lesson/:slug/:instructorId', requireSignin, addLesson)
+router.put('/course/:slug/:lessonId', requireSignin, removeLesson)
+
 
 module.exports = router;
