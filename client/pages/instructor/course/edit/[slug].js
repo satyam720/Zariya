@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import CourseCreateForm from '../../../../components/forms/CourseCreateForm';
 import Resizer from "react-image-file-resizer";
 import {toast} from 'react-toastify';
-import {List,Avatar } from "antd";
+import {List,Avatar,Modal } from "antd";
 import {DeleteOutlined} from '@ant-design/icons';
 
 
@@ -36,6 +36,12 @@ const CourseEdit = () => {
     const [image,setImage] = useState({});
     const [preview, setPreview] = useState("");
     const [uploadButtonText, setUploadButtonText] = useState("Upload Image");
+
+
+    //state for lesson update
+    const [visible, setVisible] = useState(false);
+    const [current, setCurrent] = useState({});
+
 
     //router
     const router = useRouter();
@@ -198,7 +204,11 @@ const CourseEdit = () => {
                             onDragStart={e => handleDrag(e, index)}
                             onDrop={e => handleDrop(e, index)}
                             >
-                                <Item.Meta 
+                                <Item.Meta
+                                 onClick ={() => {
+                                        setVisible(true);
+                                        setCurrent(item);
+                                 }}
                                 avatar={<Avatar>{index +1}</Avatar>}
                                 title={item.title}></Item.Meta>
 
@@ -212,6 +222,17 @@ const CourseEdit = () => {
                     </div>
                  
                  </div>
+                 <Modal 
+                 title="Update lesson" 
+                 centered 
+                 visible={visible}
+                 onCancel={() => setVisible(false)}
+                 footer={null}>
+                 Update Lesson Form
+                 <pre>{JSON.stringify(current, null ,4)}</pre>
+                
+
+                 </Modal>
         </InstructorRoute>);
 };
 
