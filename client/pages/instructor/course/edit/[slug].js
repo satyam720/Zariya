@@ -6,6 +6,10 @@ import { useRouter } from 'next/router';
 import CourseCreateForm from '../../../../components/forms/CourseCreateForm';
 import Resizer from "react-image-file-resizer";
 import {toast} from 'react-toastify';
+import {List,Avatar } from "antd";
+
+
+const {Item } = List;
 
 
 
@@ -23,6 +27,7 @@ const CourseEdit = () => {
         paid: true,
         category: '',
         loading: false,
+        lessons: [],
         
         
     });
@@ -114,6 +119,14 @@ const CourseEdit = () => {
 
     };
 
+    const handleDrag = (e, index) => {
+        console.log("On Drag => ", index );
+    };
+
+    const  handleDrop = (e, index) => {
+        console.log("On Drop => ", index);
+    }
+
    
 
     return (
@@ -138,6 +151,32 @@ const CourseEdit = () => {
             {/* <pre>{JSON.stringify(values, null, 4)}</pre>
             <hr />
             <pre>{JSON.stringify(image, null, 4)}</pre> */}
+
+
+            <hr/>
+            <div className="row pb-5" >
+                    <div className='col lesson-list'>
+                        <h4>{values && values.lessons && values.lessons.length} Lessons</h4>
+                        <List 
+                        onDragOver = {(e) => e.preventDefault()}
+                        itemLayout="horizontal"
+                        dataSource={values && values.lessons}
+                        renderItem={(item, index) =>(
+                            <Item
+                            draggable
+                            onDragStart={e => handleDrag(e, index)}
+                            onDrop={e => handleDrop(e, index)}
+                            >
+                                <Item.Meta 
+                                avatar={<Avatar>{index +1}</Avatar>}
+                                title={item.title}></Item.Meta>
+                            </Item>
+                        )}>
+
+                        </List>
+                    </div>
+                 
+                 </div>
         </InstructorRoute>);
 };
 
