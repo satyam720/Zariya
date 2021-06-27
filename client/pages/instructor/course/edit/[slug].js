@@ -190,8 +190,9 @@ const CourseEdit = () => {
         const {data} = await axios.post(`/api/course/video-upload/${values.instructor._id}`,videoData, {
             onUploadProgress: (e) => setProgress(Math.round((100*e.loaded)/e.total)),
         });
+        console.log(data);
         setUploading(false);
-        console.log({...current, video: data});
+        setCurrent({...current, video: data});
 
 
     }
