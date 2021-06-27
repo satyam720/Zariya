@@ -7,7 +7,16 @@ const router = express.Router();
 import { requireSignin } from '../middlewares';
 
 // controllers
-import {uploadImage,removeImage, create, read,uploadVideo,removeVideo,addLesson,update,removeLesson} from '../controllers/course';
+import {uploadImage,
+    removeImage, 
+    create, 
+    read,
+    uploadVideo,
+    removeVideo,
+    addLesson,
+    update,
+    removeLesson,
+    updateLesson} from '../controllers/course';
 
 // image upload and remove routes
 router.post("/course/upload-image",uploadImage);
@@ -21,7 +30,9 @@ router.post('/course/video-upload/:instructorId', requireSignin, fromidable(), u
 router.post('/course/video-remove/:instructorId', requireSignin,  removeVideo);
 
 // `/api/course/lesson/${slug}/${course.instructor._id}`,values
-router.post('/course/lesson/:slug/:instructorId', requireSignin, addLesson)
+router.post('/course/lesson/:slug/:instructorId', requireSignin, addLesson);
+router.put('/course/lesson/:slug/:instructorId', requireSignin, updateLesson);
+
 router.put('/course/:slug/:lessonId', requireSignin, removeLesson)
 
 

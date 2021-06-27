@@ -197,8 +197,17 @@ const CourseEdit = () => {
 
     }
 
-   const handleUpdateLesson = () => {
-       console.log("handle upload lesson");
+   const handleUpdateLesson = async (e) => {
+    //    console.log("handle upload lesson");
+    e.preventDefault();
+    const {data} = await axios.put(`/api/course/lesson/{slug}/${current._id}`,
+    current);
+    setUploadVideoButtonText("Upload Video");
+
+    setVisible(false);
+    toast("Lesson Update");
+    setCourse(data);
+
    }
 
     return (
