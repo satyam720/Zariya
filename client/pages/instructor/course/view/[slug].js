@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import InstructorRoute from "../../../../components/routes/InstructorRoute";
 import axios from 'axios';
 import {Avatar, Tooltip, Button,Modal, List} from "antd";
-import { EditOutlined, CheckOutlined, UploadOutlined, QuestionOutlined, CloseOutlined } from "@ant-design/icons";
+import { EditOutlined, CheckOutlined, UploadOutlined } from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
 import AddLessonForm from '../../../../components/forms/AddLessonForm';
 import {toast} from 'react-toastify';
@@ -102,31 +102,6 @@ const CourseView = () => {
           setUploading(false);
           toast("Video remove failed");
       }
-   };
-
-   const handlePublish = async (e, courseId) => {
-    try{
-        let answer = window.confirm('Once you publish your course, It will be live in the marketplace for users to enroll.');
-        if (!answer) return;
-        const {data} = await axios.put(`/api/course/publish/${courseId}`);
-        setCourse(data);
-        toast("Congrats! Your course is now live");
-
-    } catch (err) {
-        toast('Course publish failed! Try Again.');
-    }
-   }
-
-   const handleUnpublish =async  (e, courseId) =>{
-    try {
-        let answer = window.confirm('Once you Unpublish, It will not be available for users to enroll');
-    if (!answer) return;
-    const {data} = await axios.put(`/api/course/unpublish/${courseId}`);
-    setCourse(data);
-    toast("Your Course is Unpublished");
-    } catch (err) {
-        toast("Course Unpublish failed! Try Again.");
-    }
    }
 
     
@@ -160,23 +135,9 @@ const CourseView = () => {
                             <Tooltip title="Edit">
                                 <EditOutlined onClick={() => router.push(`/instructor/course/edit/${slug}`)} className="h5 pointer text-warning mr-4"/>
                             </Tooltip>
-
-                            {course.lessons && course.lessons.length < 5 ? 
-                            <Tooltip className="ms-4 " title="Min 5 lessons required to publish">
-                                <QuestionOutlined className="h5 pointer text-danger"/>
-                            </Tooltip> : course.published ? 
-                            <Tooltip className="ms-4 " title="Unpublish">
-                                <CloseOutlined 
-                                    onClick={e => handleUnpublish(e, course._id)}
-                                  className="h5 pointer text-danger"/>
-                            </Tooltip>:
-                            <Tooltip className="ms-4 " title="Publish">
-                                <CheckOutlined  
-                                    onClick={e => handlePublish(e, course._id)}
-                                  className="h5 pointer text-success"/>
+                            <Tooltip title="Publish">
+                                <CheckOutlined className="h5 pointer text-danger ms-3"/>
                             </Tooltip>
-                            }
-                           
                         </div>
                         
                     
