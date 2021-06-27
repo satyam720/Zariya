@@ -200,14 +200,21 @@ const CourseEdit = () => {
    const handleUpdateLesson = async (e) => {
     //    console.log("handle upload lesson");
     e.preventDefault();
-    const {data} = await axios.put(`/api/course/lesson/{slug}/${current._id}`,
+    const {data} = await axios.put(`/api/course/lesson/${slug}/${current._id}`,
     current);
     setUploadVideoButtonText("Upload Video");
 
     setVisible(false);
-    toast("Lesson Update");
-    setCourse(data);
-
+    
+    // update ui
+    if(data.ok) {
+        let arr = values.lessons;
+        const index = arr.findIndex((el) => el._id === current._id);
+        arr[index] = current;
+        setValues({...values, lessons: arr });
+        toast("Lesson Update");
+    }
+   
    }
 
     return (

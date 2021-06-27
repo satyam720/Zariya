@@ -256,5 +256,34 @@ export const removeLesson = async (req, res) => {
 
 
   export const updateLesson = async (req,res) => {
-      console.log("lesson update")
+   try {
+        //   console.log("lesson update", req.body)
+    const {slug} = req.params;
+    const {_id, title, content, free_preview, video} = req.body;
+    const course = await Course.findOne({slug} ).select("instructor").exec();
+    if(course.instructor._id != req.user._id){
+        return res.status(400).send("Unauthorized");
+
+    
+    }
+
+    const updated = await Course.updateOne({"lessons._id": _id},{
+        $set: {
+            "lessons.$.title": title,
+            "lessons.$.content": content,
+            "lessons.$.video": video,
+            "lessons.$.free_preview": free_preview,
+            
+
+
+        },
+    },{new: true}).exec();
+    console.log("update",updated);
+    res.json({ok: true});
+
+   } catch (err) {
+       console.log(err);
+       return res.status(400).send("update lesson failed");
+   }
+
   }
