@@ -240,50 +240,57 @@ export const update = async ( req, res) => {
 
 
 
+
 export const removeLesson = async (req, res) => {
-    const { slug, lessonId } = req.params;
-    const course = await Course.findOne({ slug }).exec();
-    if (req.user._id != course.instructor) {
-      return res.status(400).send("Unauthorized");
+    try{
+        const {slug, lessonId} = req.params;
+        const course = await Course.findOne({slug}).exec();
+        if(req.user._id != course.instructor){
+            return res.status(400).send("Unauthorised");
+        };
+
+        const deletedCourse = await Course.findByIdAndUpdate(course._id, {
+            $pull: {lessons: {_id: lessonId}},
+        }).exec();
+
+        res.json({ok: true});
+       
+    } catch (err) {
+        console.log(err);
+        return res.status(400).send("Lesson delete failed");
     }
-  
-    const deletedCourse = await Course.findByIdAndUpdate(course._id, {
-      $pull: { lessons: { _id: lessonId } },
-    }).exec();
-  
-    res.json({ ok: true });
-  };
-
-
-  export const updateLesson = async (req,res) => {
-   try {
-        //   console.log("lesson update", req.body)
-    const {slug} = req.params;
-    const {_id, title, content, free_preview, video} = req.body;
-    const course = await Course.findOne({slug} ).select("instructor").exec();
-    if(course.instructor._id != req.user._id){
-        return res.status(400).send("Unauthorized");
-
     
-    }
+  };
+  
 
-    const updated = await Course.updateOne({"lessons._id": _id},{
-        $set: {
+  export const updateLesson = async (req, res) => {
+    try {
+      const { courseId, lessonId } = req.params;
+      const { title, content, video, free_preview } = req.body;
+      // find post
+      const courseFound = await Course.findById(courseId)
+        .select("instructor")
+        .exec();
+      // is owner?
+      if (req.user._id != courseFound.instructor._id) {
+        return res.status(400).send("Unauthorized");
+      }
+  
+      const updated = await Course.updateOne(
+        { "lessons._id": lessonId },
+        {
+          $set: {
             "lessons.$.title": title,
             "lessons.$.content": content,
             "lessons.$.video": video,
             "lessons.$.free_preview": free_preview,
-            
-
-
-        },
-    },{new: true}).exec();
-    console.log("update",updated);
-    res.json({ok: true});
-
-   } catch (err) {
-       console.log(err);
-       return res.status(400).send("update lesson failed");
-   }
-
-  }
+          },
+        }
+      ).exec();
+      console.log("updated => ", updated);
+      res.json({ ok: true });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).send("Update lesson failed");
+    }
+  };

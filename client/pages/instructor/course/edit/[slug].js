@@ -157,16 +157,17 @@ const CourseEdit = () => {
     };
 
 
-    const handleDelete =async (index ) => {
+    const handleDelete = async (index) => {
         const answer = window.confirm("Are you sure you want to delete?");
-        if(!answer) return;
+        if (!answer) return;
         let allLessons = values.lessons;
-        const removed =  allLessons.splice(index, 1);
-        setValues({...values, lessons: allLessons});
-        //send request after deleting it from frontend
-        const {data} = await axios.put(`/api/course/${slug}/${removed[0]._id}`);
-
-    }
+        const removed = allLessons.splice(index, 1);
+        // console.log("removed", removed[0]._id);
+        setValues({ ...values, lessons: allLessons });
+        // send request to server
+        const { data } = await axios.put(`/api/course/${slug}/${removed[0]._id}`);
+        console.log("LESSON DELETED =>", data);
+      };
 
     //Lesson update functions********************
     const handleVideo = async (e) => {
