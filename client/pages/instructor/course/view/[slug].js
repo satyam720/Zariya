@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import InstructorRoute from "../../../../components/routes/InstructorRoute";
 import axios from 'axios';
 import {Avatar, Tooltip, Button,Modal, List} from "antd";
-import { EditOutlined, CheckOutlined, UploadOutlined } from "@ant-design/icons";
+import { EditOutlined, CheckOutlined, UploadOutlined, QuestionOutlined, CloseOutlined } from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
 import AddLessonForm from '../../../../components/forms/AddLessonForm';
 import {toast} from 'react-toastify';
@@ -135,9 +135,18 @@ const CourseView = () => {
                             <Tooltip title="Edit">
                                 <EditOutlined onClick={() => router.push(`/instructor/course/edit/${slug}`)} className="h5 pointer text-warning mr-4"/>
                             </Tooltip>
-                            <Tooltip title="Publish">
-                                <CheckOutlined className="h5 pointer text-danger ms-3"/>
-                            </Tooltip>
+
+
+                            {course.lessons && course.lessons.length < 5 ? <Tooltip title="Min 5 lessons required to publish">
+                                <QuestionOutlined className="h5 ms-4 pointer text-danger"/>
+                            </Tooltip> : course.published ?( 
+                                <Tooltip title="Unpublish">
+                                <CloseOutlined onClick={e => handleUnpublish(e, course._id)} className="h5 ms-4 pointer text-danger"/>
+                            </Tooltip> ):( <Tooltip title="Publish">
+                                <CheckOutlined onClick={e => handlePublish(e, course._id)} className="h5 ms-4 pointer text-success"/>
+                            </Tooltip> ) }
+
+                            
                         </div>
                         
                     
