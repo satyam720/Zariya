@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
+import CourseCard from '../components/cards/CourseCard';
+
 
 
 
@@ -22,13 +24,15 @@ const Index = () => {
     return (
       <>
         <h1 className="jumbotron text-center bg-primary">Online Education MarketPlace</h1>
-        
-        <div className="container-fluid "> 
-          <div className="row">
-            {courses.map((course) => <div key = {course._id} className="col-md-4"> 
-            {<pre>{JSON.stringify(course,null , 4)}</pre>}</div> )}
-          </div>
+        <div className="row"> 
+          {courses.map((course) => (
+            <div key={course.id} className="col-md-4">
+                <CourseCard course={course} />
+            </div>
+          ))}
         </div>
+        
+      
       </>
       
       );
