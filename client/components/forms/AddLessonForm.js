@@ -26,7 +26,7 @@ const AddLessonForm = ({values,
                          cols="7"
                          rows="7"
                          onChange={(e) => setValues({...values, content: e.target.value})}
-                         values={values.content}
+                         value={values.content}
                          placeholder="Content"
                      />
                         

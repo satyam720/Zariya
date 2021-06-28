@@ -45,8 +45,10 @@ const CourseView = () => {
             const {data} = await axios.post(`/api/course/lesson/${slug}/${course.instructor._id}`,values);
         
         setValues({...values, title: '',content: '', video: {} });
-        setVisible(false);
+        setProgress(0);
         setUploadButtonText('Upload Video');
+        setVisible(false);
+        
         setCourse(data);
         toast('Lesson Added');
         } catch (err){

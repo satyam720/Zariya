@@ -18,7 +18,11 @@ import {uploadImage,
     removeLesson,
     updateLesson,
     publishCourse,
-    unpublishCourse} from '../controllers/course';
+    unpublishCourse,
+    courses} from '../controllers/course';
+
+// get the published courses
+router.get('/courses', courses )
 
 // image upload and remove routes
 router.post("/course/upload-image",uploadImage);
