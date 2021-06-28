@@ -104,7 +104,32 @@ const CourseView = () => {
       }
    }
 
-    
+    const handlePublish =async (e, courseId) => {
+        try {
+            let answer = window.confirm("Once you Publish your course, it will be live in the marketplace to enroll");
+        if(!answer) return;
+        const {data} = await axios.put(`/api/course/publish/${courseId}`);
+        setCourse(data);
+        toast('Congrats! Your course is live'); 
+        } catch (err) {
+          toast('Course Publish failed! Try Again'); 
+        }
+
+    };
+
+    const handleUnpublish =async (e, courseId) => {
+        try{
+            let answer = window.confirm("Once you Unpublish your course, it will not be available for users to enroll");
+            if(!answer) return;
+        const {data} = await axios.put(`/api/course/unpublish/${courseId}`);
+        setCourse(data);
+        toast("Course is now Unpublished");
+        
+
+        } catch (err){
+            toast("Course Unpublish failed! Try again");
+        }
+    };
 
     return (
         <InstructorRoute>

@@ -16,7 +16,9 @@ import {uploadImage,
     addLesson,
     update,
     removeLesson,
-    updateLesson} from '../controllers/course';
+    updateLesson,
+    publishCourse,
+    unpublishCourse} from '../controllers/course';
 
 // image upload and remove routes
 router.post("/course/upload-image",uploadImage);
@@ -29,11 +31,18 @@ router.get('/course/:slug', read)
 router.post('/course/video-upload/:instructorId', requireSignin, fromidable(), uploadVideo);
 router.post('/course/video-remove/:instructorId', requireSignin,  removeVideo);
 
+//publish unpublish
+router.put('/course/publish/:courseId', requireSignin, publishCourse);
+router.put('/course/unpublish/:courseId', requireSignin, unpublishCourse);
+
 // `/api/course/lesson/${slug}/${course.instructor._id}`,values
 router.post('/course/lesson/:slug/:instructorId', requireSignin, addLesson);
 router.put('/course/lesson/:slug/:instructorId', requireSignin, updateLesson);
+router.put('/course/:slug/:lessonId', requireSignin, removeLesson);
 
-router.put('/course/:slug/:lessonId', requireSignin, removeLesson)
+
+
+
 
 
 module.exports = router;
