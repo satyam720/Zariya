@@ -6,19 +6,19 @@ import CourseCard from '../components/cards/CourseCard';
 
 
 
-const Index = () => {
+const Index = ({courses}) => {
 
-  const [courses, setCourses] = useState([]);
+  // const [courses, setCourses] = useState([]);
 
 
-  useEffect(() => {
-    const fetchCourses = async () => {
-      const {data} = await axios.get("/api/courses");
-      setCourses(data);
+  // useEffect(() => {
+  //   const fetchCourses = async () => {
+  //     const {data} = await axios.get("/api/courses");
+  //     setCourses(data);
 
-    };
-    fetchCourses();
-  }, []);
+  //   };
+  //   fetchCourses();
+  // }, []);
 
 
     return (
@@ -37,5 +37,14 @@ const Index = () => {
       
       );
 };
+
+export async function getServerSideProps() {
+  const {data} = await axios.get(`${process.env.API}/courses`);
+  return {
+    props: {
+      courses: data,
+    },
+  };
+}
 
 export default Index;
