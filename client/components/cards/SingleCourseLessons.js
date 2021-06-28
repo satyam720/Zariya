@@ -5,7 +5,7 @@ const {Item} = List;
 const SingleCourseLessons = ({
     lessons,
     setPreview,
-    setModal,
+    showModal,
     setShowModal,
 
 }) => {
@@ -23,9 +23,19 @@ const SingleCourseLessons = ({
                                     <Item>
                                         <Item.Meta 
                                         avatar={<Avatar>{index + 1}</Avatar>}
-                                        title={item.title} >
-                                            
-                                        </Item.Meta>
+                                        title={item.title}/>
+                                        {item.video && item.video !== null && item.free_preview && (
+                                            <span 
+                                            className="text-primary cursor-pointer"
+                                            onClick={() => {
+                                                setPreview(item.video.Location)
+                                                setShowModal(!showModal)
+                                            }}>
+                                                Preview
+                                            </span>
+                                        )}
+
+                                        
                                     </Item>
                                 )}
                             /> 
