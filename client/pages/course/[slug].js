@@ -1,10 +1,18 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {useRouter} from 'next/router';
-import {Badge} from 'antd';
+import {Badge, Modal} from 'antd';
 import {currencyFormatter } from '../../utils/helpers';
+import ReactPlayer from 'react-player';
+
 
 const SingleCourse = ({course}) => {
+
+    //state
+    const [showModal, setShowModal] = useState(false);
+    const [preview,setePreview] = useState('');
+
+
     const router = useRouter();
     const {slug} = router.query;
 
@@ -50,14 +58,33 @@ const {name,
                         </div>
                         <div  className="col-md-4">
                             {/* {show video preview or course image} */}
-                            <p>show course image</p>
-                            <p>show enroll button</p>
+                            {lessons[0].video && lessons[0].video.Location ? 
+                            <div onClick={() => {
+                                setePreview(lessons[0].video.Location);
+                                setShowModal(!showModal);
+                            }}> 
+                                    <ReactPlayer  
+                                        url={lessons[0].video.Location}
+                                        light={image.Location}
+                                        width ='100%'
+                                        height ='250px'
+                                    />
+                            </div> : (
+                                <>
+                                <img src={image.Location}
+                                alt ={name}
+                                className="img img-fluid"/>
+                                </>
+                            )}
+                            
                             {/* {enroll button} */}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        {showModal ? course.lessons[0].video.Location:"don't show"}
         </>);
 
 };
