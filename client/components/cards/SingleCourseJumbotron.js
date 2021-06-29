@@ -11,7 +11,9 @@ setPreview,
 loading,
 user,
 handlePaidEnrollment,
-handleFreeEnrollment}) => {
+handleFreeEnrollment,
+setEnrolled,
+enrolled}) => {
 
 //destructure 
 const {name,
@@ -88,7 +90,7 @@ const {name,
                                 size="large"
                                 disabled={loading}
                                 onClick={paid ? handlePaidEnrollment : handleFreeEnrollment}>
-                                    {user ? "Enroll" : "Login to Enroll"}
+                                    {user ? enrolled.status ? "Go to Course": "Enroll" : "Login to Enroll"}
                                 </Button>
                             )}
                         </div>
