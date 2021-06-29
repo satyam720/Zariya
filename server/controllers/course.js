@@ -371,3 +371,25 @@ export const removeLesson = async (req, res) => {
 
   };
 
+  export const freeEnrollment = async (req,res) => {
+      try {
+        //check if course is free or paid
+        const course = await Course.findById(req.params.courseId).exec();
+        if(course.paid) return;
+
+        const result = await User.findByIdAndUpdate(req.user._id, {
+            $addToSet: {courses: course._id},
+            
+        }, {new: true}).exec();
+
+        res.json({
+            message: "Congratulations: You have Successfully enrolled",
+            course,
+        })
+
+      } catch (err) {
+          console.log("free Enrollment err", err);
+           return res.status(400).send("Enrollment create failed");
+      }
+  }
+

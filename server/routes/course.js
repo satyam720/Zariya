@@ -20,7 +20,8 @@ import {uploadImage,
     publishCourse,
     unpublishCourse,
     courses,
-    checkEnrollment} from '../controllers/course';
+    checkEnrollment,
+    freeEnrollment,} from '../controllers/course';
 
 // get the published courses
 router.get('/courses', courses )
@@ -48,7 +49,8 @@ router.put('/course/:slug/:lessonId', requireSignin, removeLesson);
 
 router.get('/check-enrollment/:courseId',requireSignin, checkEnrollment);
 
-
+//enrollment
+router.post('/free-enrollment/:courseId',requireSignin,freeEnrollment);
 
 
 
