@@ -405,8 +405,8 @@ export const removeLesson = async (req, res) => {
     // application fee 30%
     const fee =(course.price *30) /100;
     //create stripe session
-    const session = await stripe.checkout.session.create({
-        payment_method_type: ['card'],
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
         //purchase deatails
         line_items: [
             {
