@@ -4,7 +4,7 @@ import fromidable from "express-formidable";
 const router = express.Router();
 
 //middleware
-import { requireSignin } from '../middlewares';
+import { requireSignin, isEnrolled } from '../middlewares';
 
 // controllers
 import {uploadImage,
@@ -36,7 +36,7 @@ router.post("/course/remove-image",removeImage);
 // course create and save routes
 router.post('/course', requireSignin,create);
 router.put('/course/:slug', requireSignin,update);
-router.get('/course/:slug', read)
+router.get('/course/:slug', read);
 router.post('/course/video-upload/:instructorId', requireSignin, fromidable(), uploadVideo);
 router.post('/course/video-remove/:instructorId', requireSignin,  removeVideo);
 
@@ -59,6 +59,6 @@ router.get("/stripe-success/:courseId", requireSignin, stripeSuccess);
 
 //user courses
 router.get('/user-courses', requireSignin,userCourses)
-
+router.get('/user/course/:slug',requireSignin,isEnrolled, read);
 
 module.exports = router;
