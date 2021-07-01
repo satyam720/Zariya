@@ -23,7 +23,8 @@ import {uploadImage,
     checkEnrollment,
     freeEnrollment,
     paidEnrollment,
-    stripeSuccess} from '../controllers/course';
+    stripeSuccess,
+    userCourses} from '../controllers/course';
 
 // get the published courses
 router.get('/courses', courses )
@@ -56,7 +57,8 @@ router.post("/free-enrollment/:courseId", requireSignin, freeEnrollment);
 router.post("/paid-enrollment/:courseId", requireSignin, paidEnrollment);
 router.get("/stripe-success/:courseId", requireSignin, stripeSuccess);
 
-
+//user courses
+router.get('/user-courses', requireSignin,userCourses)
 
 
 module.exports = router;
