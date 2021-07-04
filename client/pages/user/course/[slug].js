@@ -7,7 +7,7 @@ import StudentRoute from "../../../components/routes/StudentRoute";
 import { Button, Menu, Avatar } from "antd";
 import ReactPlayer from 'react-player';
 import ReactMarkdown from 'react-markdown';
-import {CheckCircleFilled,MinusCircleFilled,PlayCircleOutlined,MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons'
+import {CheckCircleFilled,MinusCircleFilled,PlayCircleOutlined,MenuFoldOutlined, MenuUnfoldOutlined, CodeSandboxCircleFilled} from '@ant-design/icons'
 
 const { Item } = Menu;
 
@@ -17,6 +17,10 @@ const SingleCourse = () => {
   const [loading, setLoading] = useState(false);
   const [course, setCourse] = useState({ lessons: [] });
   const [completedLessons, setCompletedLessons] = useState([]);
+
+  //force state update
+  const [updateState, setUpdateState] = useState(false); 
+
   // router
   const router = useRouter();
   const { slug } = router.query;
@@ -49,14 +53,27 @@ const SingleCourse = () => {
       lessonId: course.lessons[clicked]._id,
     });
   console.log(data);
+  setCompletedLessons([...completedLessons, course.lessons[clicked]._id]);
   };
 
   const markIncompleted = async () => {
+   try {
     const {data} = await axios.post(`/api/mark-incomplete`, {
       courseId: course._id,
       lessonId: course.lessons[clicked]._id,
     });
     console.log(data);
+    const all = completedLessons;
+    const index = all.indexOf(course.lessons[clicked]._id);
+    if(index > -1) {
+      all.splice(index, 1);
+      setCompletedLessons(all);
+      setUpdateState(!updateState);
+    }
+   }catch (err) {
+     console.log(err);
+   }
+
   }
 
 
@@ -120,6 +137,7 @@ const SingleCourse = () => {
                             width="80%"
                             height="100%"
                             controls
+                            onEnded={() => markCompleted()}
                         />
                     </div>
                     
