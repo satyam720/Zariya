@@ -70,16 +70,17 @@ const SingleCourse = () => {
         </div>
 
         <div className="col">
-          {clicked !== -1 ? (
-            <>
-            {course.lessons[clicked].video && course.lessons[clicked].video.Location && (
-                <> 
-                    <div className="col alert alert-primary">
+        <div className="col alert alert-primary">
                         <b>{course.lessons[clicked].title.substring(0,30)}</b>
                         <span className="float-end cursor-pointer" onClick={markCompleted}>
                             Mark as Completed
                         </span>
                     </div>
+          {clicked !== -1 ? (
+            <>
+            {course.lessons[clicked].video && course.lessons[clicked].video.Location && (
+                <> 
+                    
                     <div className="wrapper">
                         <ReactPlayer className="player" 
                             url={course.lessons[clicked].video.Location}

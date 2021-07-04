@@ -1,9 +1,11 @@
 import AWS from 'aws-sdk';
 import { nanoid } from 'nanoid';
 import Course from "../models/course";
+import Completed from '../models/completed';
 import slugify from 'slugify';
 import {readFileSync} from 'fs';
 import User from "../models/user";
+import course from '../models/course';
 
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
@@ -475,3 +477,35 @@ export const removeLesson = async (req, res) => {
       .exec();
     res.json(courses);
   };
+
+
+  export const markCompleted = async (req,res) => {
+      const {courseId, lessonId} = req.body;
+    //   console.log(courseId, lessonId);
+    // find if user with that course is already created
+    const existing = await Completed.findOne({
+        user: req.user._id,
+        course: courseId,
+
+    }).exec();
+
+    if(existing) {
+        //update
+        const updated = await Completed.findOneAndUpdate({
+            user: req.user._id,
+            course: courseId,
+        }, {
+            $addToSet: {lessons: lessonId},
+        }).exec();
+        res.json({ok: true});
+
+    }else{
+        //create
+        const created = await new Completed({
+            user: req.user._id,
+            course: courseId,
+            lessons: lessonId,
+        }).save();
+        res.json({ok: true});
+    }
+  }
