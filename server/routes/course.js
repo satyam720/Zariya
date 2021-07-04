@@ -25,7 +25,8 @@ import {uploadImage,
     paidEnrollment,
     stripeSuccess,
     userCourses,
-    markCompleted} from '../controllers/course';
+    markCompleted,
+    listCompleted} from '../controllers/course';
 
 // get the published courses
 router.get('/courses', courses )
@@ -64,5 +65,7 @@ router.get('/user/course/:slug',requireSignin,isEnrolled, read);
 
 // mark completed
 router.post('/mark-completed', requireSignin,markCompleted);
+router.post('/list-completed', requireSignin,listCompleted);
+
 
 module.exports = router;

@@ -16,7 +16,7 @@ const SingleCourse = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [course, setCourse] = useState({ lessons: [] });
-
+  const [completedLessons, setCompletedLessons] = useState([]);
   // router
   const router = useRouter();
   const { slug } = router.query;
@@ -24,6 +24,19 @@ const SingleCourse = () => {
   useEffect(() => {
     if (slug) loadCourse();
   }, [slug]);
+
+  useEffect(() => {
+    if (course) loadCompletedLessons();
+  }, [course]);
+
+  const loadCompletedLessons = async () => {
+    const {data} = await axios.post(`/api/list-completed`,{
+      courseId: course._id,
+
+    });
+    console.log("completed lessons => ", data);
+    setCompletedLessons(data);
+  }
 
   const loadCourse = async () => {
     const { data } = await axios.get(`/api/user/course/${slug}`);
@@ -70,16 +83,20 @@ const SingleCourse = () => {
         </div>
 
         <div className="col">
-        <div className="col alert alert-primary">
+        
+      
+          {clicked !== -1 ? (
+            
+            <>
+            <div className="col alert alert-primary">
                         <b>{course.lessons[clicked].title.substring(0,30)}</b>
                         <span className="float-end cursor-pointer" onClick={markCompleted}>
                             Mark as Completed
                         </span>
                     </div>
-          {clicked !== -1 ? (
-            <>
             {course.lessons[clicked].video && course.lessons[clicked].video.Location && (
                 <> 
+                
                     
                     <div className="wrapper">
                         <ReactPlayer className="player" 
