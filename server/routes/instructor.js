@@ -9,7 +9,8 @@ import { requireSignin } from '../middlewares';
 import {makeInstructor, 
        getAccountStatus,
        currentInstructor,
-       instructorCourses} from "../controllers/instructor";
+       instructorCourses,
+       studentCount} from "../controllers/instructor";
 
 //endpoint
 router.post("/makeInstructor",requireSignin, makeInstructor);
@@ -18,4 +19,8 @@ router.get('/current-instructor', requireSignin, currentInstructor);
 
 
 router.get('/instructor-courses', requireSignin, instructorCourses);
+
+
+router.post('/instructor/student-count', requireSignin, studentCount);
+
 module.exports = router;

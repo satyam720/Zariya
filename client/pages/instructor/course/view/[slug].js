@@ -3,11 +3,12 @@ import { useRouter } from "next/router";
 import InstructorRoute from "../../../../components/routes/InstructorRoute";
 import axios from 'axios';
 import {Avatar, Tooltip, Button,Modal, List} from "antd";
-import { EditOutlined, CheckOutlined, UploadOutlined, QuestionOutlined, CloseOutlined } from "@ant-design/icons";
+import { EditOutlined, CheckOutlined, UploadOutlined, QuestionOutlined, CloseOutlined, UserSwitchOutlined } from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
 import AddLessonForm from '../../../../components/forms/AddLessonForm';
 import {toast} from 'react-toastify';
 import Item from "antd/lib/list/Item";
+import { configConsumerProps } from "antd/lib/config-provider";
 
 const CourseView = () => {
     const [course, setCourse] = useState();
@@ -24,12 +25,29 @@ const CourseView = () => {
     const [uplaodButtonText, setUploadButtonText] = useState("Upload Video");
     const [progress,setProgress] = useState(0);
 
+    //student count
+    const [students, setStudents] = useState(0);
+
     const router = useRouter();
     const {slug} = router.query;
 
     useEffect(() => {
         loadCourse()
     }, [slug]);
+
+
+    useEffect(() => {
+        course && studentCount();
+    }, [course]);
+
+
+    const studentCount = async () => {
+        const {data} = await axios.post('/api/instructor/student-count',{
+            courseId: course._id,
+        });
+        console.log('Student Count => ', data);
+        setStudents(data.length);
+    }
 
     const loadCourse = async () => {
         const {data} = await axios.get(`/api/course/${slug}`);
@@ -159,6 +177,9 @@ const CourseView = () => {
                             </div>
                             
                             <div className="mt-2  col button1-edit flex-end">
+                            <Tooltip title={`${students} Enrolled`}>
+                                <UserSwitchOutlined className="h5 pointer text-info me-4"/>
+                            </Tooltip>
                             <Tooltip title="Edit">
                                 <EditOutlined onClick={() => router.push(`/instructor/course/edit/${slug}`)} className="h5 pointer text-warning mr-4"/>
                             </Tooltip>
