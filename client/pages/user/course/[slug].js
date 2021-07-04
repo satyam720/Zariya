@@ -7,7 +7,7 @@ import StudentRoute from "../../../components/routes/StudentRoute";
 import { Button, Menu, Avatar } from "antd";
 import ReactPlayer from 'react-player';
 import ReactMarkdown from 'react-markdown';
-import {PlayCircleOutlined,MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons'
+import {CheckCircleFilled,MinusCircleFilled,PlayCircleOutlined,MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons'
 
 const { Item } = Menu;
 
@@ -49,6 +49,14 @@ const SingleCourse = () => {
       lessonId: course.lessons[clicked]._id,
     });
   console.log(data);
+  };
+
+  const markIncompleted = async () => {
+    const {data} = await axios.post(`/api/mark-incomplete`, {
+      courseId: course._id,
+      lessonId: course.lessons[clicked]._id,
+    });
+    console.log(data);
   }
 
 
@@ -76,7 +84,9 @@ const SingleCourse = () => {
                 key={index}
                 icon={<Avatar>{index + 1}</Avatar>}
               >
-                {lesson.title.substring(0, 30)}
+                {lesson.title.substring(0, 22)} {" "} {completedLessons.includes(lesson._id) ? 
+                (<CheckCircleFilled className="float-end text-primary ml-2 " style={{marginTop: "13px"}}/>) : (
+                  <MinusCircleFilled className="float-end text-danger ml-2 " style={{marginTop: "13px"}}/>)}
               </Item>
             ))}
           </Menu>
@@ -90,9 +100,15 @@ const SingleCourse = () => {
             <>
             <div className="col alert alert-primary">
                         <b>{course.lessons[clicked].title.substring(0,30)}</b>
-                        <span className="float-end cursor-pointer" onClick={markCompleted}>
+                        {completedLessons.includes(course.lessons[clicked]._id) ?(
+                          <span className="float-end cursor-pointer" onClick={markIncompleted}>
+                            Mark as Incomplete
+                        </span>
+                        ): (
+                          <span className="float-end cursor-pointer" onClick={markCompleted}>
                             Mark as Completed
                         </span>
+                        )}
                     </div>
             {course.lessons[clicked].video && course.lessons[clicked].video.Location && (
                 <> 

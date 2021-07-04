@@ -522,4 +522,27 @@ export const removeLesson = async (req, res) => {
       } catch (err) {
           console.log(err);
       }
-  }
+  };
+
+ 
+
+  export const markIncomplete = async (req, res) => {
+    try {
+      const { courseId, lessonId } = req.body;
+    //   console.log("This is lessonId=>",lessonId);
+    //   console.log("this is course id=>", courseId);
+  
+      const updated = await Completed.findOneAndUpdate(
+        {
+          user: req.user._id,
+          course: courseId,
+        },
+        {
+          $pull: { lessons: lessonId },
+        }
+      ).exec();
+      res.json({ ok: true });
+    } catch (err) {
+      console.log(err);
+    }
+  };
