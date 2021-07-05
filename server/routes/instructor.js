@@ -11,7 +11,8 @@ import {makeInstructor,
        currentInstructor,
        instructorCourses,
        studentCount,
-       instructorBalance} from "../controllers/instructor";
+       instructorBalance
+       } from "../controllers/instructor";
 
 
 //endpoint
@@ -26,5 +27,7 @@ router.get('/instructor-courses', requireSignin, instructorCourses);
 router.post('/instructor/student-count', requireSignin, studentCount);
 
 router.get("/instructor/balance", requireSignin,instructorBalance )
+
+
 
 module.exports = router;

@@ -27,3 +27,9 @@
 .cursor-pointer{
     cursor: pointer;
   }
+
+ body {
+    max-width: 100%;
+    overflow-x: hidden;
+    
+}

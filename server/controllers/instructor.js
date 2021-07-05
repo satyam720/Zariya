@@ -104,4 +104,5 @@ export const instructorBalance = async (req,res ) => {
   } catch (err) {
     console.log(err);
   }
-}
+};
+

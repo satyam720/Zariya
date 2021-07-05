@@ -2,13 +2,15 @@ import {useState, useEffect, useContext} from 'react';
 import {Context} from '../../context';
 import InstructorRoute from '../../components/routes/InstructorRoute';
 import axios from 'axios';
-import {DollarOutlined, SettingOutlined, LoadingOutlined} from '@ant-design/icons';
+import {SyncOutlined,DollarOutlined, SettingOutlined, LoadingOutlined} from '@ant-design/icons';
 import {stripeCurrencyFormatter} from '../../utils/helpers';
 
 
 const instructorRevenue = () => {
 
     const [balance, setBalance, ]= useState({pending: []});
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
         sendBalanceRequest();
@@ -19,9 +21,7 @@ const instructorRevenue = () => {
         setBalance(data);
     };
 
-    const handlePayoutSettings = async () => {
-        console.log("handle payout settings");
-    }
+
 
     return (
 
@@ -42,14 +42,8 @@ const instructorRevenue = () => {
                          <small>
                            For 48 hours
                         </small>
-                        <hr />
-                        <h4>
-                            Payouts <SettingOutlined className="float-end cursor-pointer"
-                            onClick={handlePayoutSettings} />
-                        </h4>
-                        <small>
-                            Update your stripe account details or view previous payouts.
-                        </small>
+                        
+                       
                     </div>
                 </div>
             </div>
